@@ -20,6 +20,7 @@ public class HappinessCounter {
 
     private HappinessRepository repository;
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     public HappinessCounter(HappinessRepository repository) {
         this.repository = repository;
@@ -39,7 +40,7 @@ public class HappinessCounter {
 
     @PreDestroy
     public void persistTodayToDb() {
-        LOG.info("persisting current hapiness on close");
+        LOG.info("persisting current happiness on close");
         repository.save(todaysHappiness());
     }
 
@@ -47,6 +48,12 @@ public class HappinessCounter {
     public void autoSave() {
         LOG.info("auto saving current happiness counter");
         repository.save(todaysHappiness());
+    }
+
+    @Scheduled(cron = "0 0 0 * * *")
+    public void resetCounterForNewDay() {
+        LOG.info("It's a new day! Happiness reset");
+        happinessCounter = new AtomicIntegerArray(3);
     }
 
 
