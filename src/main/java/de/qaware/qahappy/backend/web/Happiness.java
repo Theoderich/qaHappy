@@ -47,4 +47,18 @@ public class Happiness {
     public Date getDate() {
         return date;
     }
+
+    public void increment(HappinessType type) {
+        switch (type) {
+            case UNHAPPY:
+                ++unhappy;
+                break;
+            case OK:
+                ++ok;
+                break;
+            case HAPPY:
+                ++happy;
+                break;
+        }
+    }
 }
