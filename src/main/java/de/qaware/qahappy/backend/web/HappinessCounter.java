@@ -3,6 +3,7 @@ package de.qaware.qahappy.backend.web;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -42,11 +43,18 @@ public class HappinessCounter {
         repository.save(todaysHappiness());
     }
 
+    @Scheduled(fixedRate = 60_000)
+    public void autoSave() {
+        LOG.info("auto saving current happiness counter");
+        repository.save(todaysHappiness());
+    }
+
+
     public Happiness todaysHappiness() {
         return new Happiness(happinessCounter.get(0), happinessCounter.get(1), happinessCounter.get(2));
     }
 
-    public void incrementHappiness(int val) {
-        happinessCounter.incrementAndGet(val);
+    public void incrementHappiness(HappinessType type) {
+        happinessCounter.incrementAndGet(type.ordinal());
     }
 }

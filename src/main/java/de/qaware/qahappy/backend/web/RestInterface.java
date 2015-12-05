@@ -30,10 +30,11 @@ public class RestInterface {
 
     @RequestMapping(path = "/happiness", method = RequestMethod.PUT)
     public ResponseEntity<?> addHappiness(@RequestBody int happiness) {
-        if (happiness < 0 || happiness > 3) {
+        HappinessType type = HappinessType.fromInt(happiness);
+        if (type == null) {
             return ResponseEntity.badRequest().build();
         }
-        counter.incrementHappiness(happiness);
+        counter.incrementHappiness(type);
         LOG.info("Added happiness of value " + happiness);
         return ResponseEntity.ok().build();
     }

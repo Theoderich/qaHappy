@@ -19,6 +19,9 @@ public class Happiness {
     private int ok;
     private int happy;
 
+    /**
+     * Constructor for JPA
+     */
     public Happiness() {
     }
 
