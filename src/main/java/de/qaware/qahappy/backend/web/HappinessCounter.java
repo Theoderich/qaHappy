@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class HappinessCounter {
@@ -22,6 +23,11 @@ public class HappinessCounter {
 
     public Happiness todaysHappiness() {
         return repository.findOne(new Date());
+    }
+
+    public List<Happiness> happinessBetween(Date start, Date end) {
+
+        return repository.findByDateBetween(start, end);
     }
 
     public synchronized void incrementHappiness(HappinessType type) {

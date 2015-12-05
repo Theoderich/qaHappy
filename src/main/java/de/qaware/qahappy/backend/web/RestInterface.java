@@ -3,11 +3,12 @@ package de.qaware.qahappy.backend.web;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
 
 @RestController
 public class RestInterface {
@@ -22,9 +23,23 @@ public class RestInterface {
         this.counter = counter;
     }
 
-    @RequestMapping(path = "/happiness", method = RequestMethod.GET)
+    @RequestMapping(path = "/happiness/today", method = RequestMethod.GET)
     public Happiness getTodaysHappiness() {
         return counter.todaysHappiness();
+    }
+
+    @RequestMapping(path = "/happiness", method = RequestMethod.GET)
+    public List<Happiness> getHappinessForDateRange(@RequestParam(value = "fromDate", defaultValue = "1970-01-01")
+                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                    Date fromDate,
+                                                    @RequestParam(value = "toDate", required = false)
+                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date toDate) {
+        Date safeToDate = toDate;
+        if (safeToDate == null) {
+            safeToDate = new Date();
+        }
+
+        return counter.happinessBetween(fromDate, safeToDate);
     }
 
 
