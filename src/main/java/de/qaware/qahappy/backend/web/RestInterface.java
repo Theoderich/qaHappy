@@ -23,7 +23,7 @@ public class RestInterface {
     }
 
     @RequestMapping(path = "/happiness", method = RequestMethod.GET)
-    public Happiness getGreeting() {
+    public Happiness getTodaysHappiness() {
         return counter.todaysHappiness();
     }
 
