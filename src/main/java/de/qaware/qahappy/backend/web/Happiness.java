@@ -25,11 +25,11 @@ public class Happiness {
     public Happiness() {
     }
 
-    public Happiness(int unhappy, int ok, int happy) {
+    public Happiness(int unhappy, int ok, int happy, Date date) {
         this.unhappy = unhappy;
         this.ok = ok;
         this.happy = happy;
-        this.date = new Date();
+        this.date = date;
     }
 
     public int getUnhappy() {

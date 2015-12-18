@@ -31,12 +31,17 @@ public class HappinessCounter {
     }
 
     public synchronized void incrementHappiness(HappinessType type) {
-        Happiness todaysHappiness = repository.findOne(new Date());
-        if (todaysHappiness == null) {
-            LOG.info("No Happiness data found for today, creating new one!");
-            todaysHappiness = new Happiness(0, 0, 0);
+        amendHappiness(type, new Date());
+
+    }
+
+    public void amendHappiness(HappinessType type, Date date) {
+        Happiness happyness = repository.findOne(date);
+        if (happyness == null) {
+            LOG.info("No Happiness data found for " + date + ", creating new one!");
+            happyness = new Happiness(0, 0, 0, date);
         }
-        todaysHappiness.increment(type);
-        repository.save(todaysHappiness);
+        happyness.increment(type);
+        repository.save(happyness);
     }
 }

@@ -44,12 +44,20 @@ public class RestInterface {
 
 
     @RequestMapping(path = "/happiness", method = RequestMethod.PUT)
-    public ResponseEntity<?> addHappiness(@RequestBody int happiness) {
+    public ResponseEntity<?> addHappiness(@RequestBody int happiness,
+                                          @RequestParam(value = "date", required = false)
+                                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                          Date date) {
         HappinessType type = HappinessType.fromInt(happiness);
         if (type == null) {
             return ResponseEntity.badRequest().build();
         }
-        counter.incrementHappiness(type);
+        if (date == null) {
+            counter.incrementHappiness(type);
+        } else {
+            counter.amendHappiness(type, date);
+        }
+
         LOG.info("Added happiness of value " + happiness);
         return ResponseEntity.ok().build();
     }
