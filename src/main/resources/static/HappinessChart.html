@@ -92,6 +92,12 @@
                 okData.push(entry.ok);
                 happyData.push(entry.happy);
             });
+            if (labels.length == 0) {
+                labels = ['no data'];
+                unhappyData = [0];
+                okData = [0];
+                happyData = [0];
+            }
             var data = {
                 labels: labels,
                 datasets: [
