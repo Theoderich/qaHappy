@@ -22,7 +22,11 @@ public class HappinessCounter {
     }
 
     public Happiness todaysHappiness() {
-        return repository.findOne(new Date());
+        Happiness todaysHappiness = repository.findOne(new Date());
+        if (todaysHappiness == null) {
+            return new Happiness(0, 0, 0, new Date());
+        }
+        return todaysHappiness;
     }
 
     public List<Happiness> happinessBetween(Date start, Date end) {
